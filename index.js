@@ -15,9 +15,32 @@ mongoose.Promise = Promise;
 
 // connect to mongo db
 const mongoUri = config.mongo.host;
-mongoose.connect(mongoUri, { server: { socketOptions: { keepAlive: 1 } } });
-mongoose.connection.on('error', () => {
-  throw new Error(`unable to connect to database: ${mongoUri}`);
+const database = mongoose.connection;
+
+database.on('error', function(error) {
+  console.error('Error in MongoDb connection: ' + error);
+  mongoose.disconnect();
+});
+
+database.on('connected', function() {
+  console.log('MongoDB connected!');
+});
+
+database.once('open', function() {
+  console.log('MongoDB connection opened!');
+});
+
+database.on('reconnected', function () {
+  console.log('MongoDB reconnected!');
+});
+
+database.on('disconnected', function() {
+  console.log('MongoDB disconnected!');
+  mongoose.connect(mongoUri, {
+    server: {
+      auto_reconnect: true,
+    }
+  });
 });
 
 // print mongoose logs in dev env
@@ -26,6 +49,15 @@ if (config.MONGOOSE_DEBUG) {
     debug(`${collectionName}.${method}`, util.inspect(query, false, 20), doc);
   });
 }
+
+mongoose.connect(mongoUri, {
+  server: {
+    auto_reconnect: true,
+    socketOptions: {
+      keepAlive: 1
+    }
+  }
+});
 
 // module.parent check is required to support mocha watch
 // src: https://github.com/mochajs/mocha/issues/1912

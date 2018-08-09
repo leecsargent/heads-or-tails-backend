@@ -20,11 +20,30 @@ export default {
     }
   },
 
+  // POST /api/projects
+  createProject: {
+    body: {
+      title: Joi.string().required(),
+      slug: Joi.string().required(),
+    }
+  },
+
+  // UPDATE /api/project/:projectId
+  udpateProject: {
+    body: {
+      title: Joi.string().required(),
+      slug: Joi.string().required(),
+    },
+    params: {
+      projectId: Joi.string().hex().required()
+    }
+  },
+
   // POST /api/auth/login
   login: {
     body: {
       username: Joi.string().required(),
       password: Joi.string().required()
     }
-  }
+  },
 };
