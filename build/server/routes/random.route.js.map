@@ -1,0 +1,1 @@
+{"version":3,"sources":["server/routes/random.route.js"],"names":["router","express","Router","route","post","randomController","headsOrTails"],"mappings":";;;;;;AAAA;;;;AACA;;;;AACA;;;;AACA;;;;;;AAEA,IAAMA,SAASC,kBAAQC,MAAR,EAAf,C,CAAiC;;AAEjCF,OAAOG,KAAP,CAAa,GAAb,EACGC,IADH,CACQC,iBAAiBC,YADzB;;kBAGeN,M","file":"random.route.js","sourceRoot":"../../../../.."}
